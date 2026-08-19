@@ -33,3 +33,33 @@ To prepare and upload in one command:
 ```bash
 uv run python scripts/prepare_dataset.py all
 ```
+
+## Train
+
+Put `WANDB_API_KEY` in `.env`, then launch BF16 LoRA training on two GPUs:
+
+```bash
+uv sync --all-groups
+uv run accelerate launch \
+  --multi_gpu \
+  --num_processes 2 \
+  --num_machines 1 \
+  --mixed_precision bf16 \
+  --dynamo_backend no \
+  scripts/train.py
+```
+
+Metrics are logged to `martians_beasts_dragons/qwen3-asr-refinder`. The final LoRA adapter and checkpoints are
+written to `artifacts/qwen3-1.7b-asr-refinder-lora/`.
+
+Run a short pilot before the full training run:
+
+```bash
+uv run accelerate launch \
+  --multi_gpu \
+  --num_processes 2 \
+  --num_machines 1 \
+  --mixed_precision bf16 \
+  --dynamo_backend no \
+  scripts/train.py --max-train-samples 100000 --max-steps 500
+```

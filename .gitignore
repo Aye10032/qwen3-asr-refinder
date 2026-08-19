@@ -11,3 +11,6 @@ wheels/
 
 # Generated dataset artifacts
 artifacts/
+
+.env
+wandb/
