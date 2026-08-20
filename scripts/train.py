@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-import os
 from pathlib import Path
 
 import click
@@ -65,8 +62,6 @@ def train(
 ) -> None:
     """Fine-tune Qwen3 for spoken-to-written Chinese conversion."""
     load_dotenv()
-    os.environ['WANDB_ENTITY'] = 'martians_beasts_dragons'
-    os.environ['WANDB_PROJECT'] = 'qwen3-asr-refinder'
 
     with PartialState().main_process_first():
         model_path = snapshot_download(model_id)
@@ -106,7 +101,7 @@ def train(
         eval_steps=100,
         save_strategy='steps',
         save_steps=100,
-        save_total_limit=2,
+        save_total_limit=4,
         load_best_model_at_end=True,
         metric_for_best_model='eval_loss',
         report_to='wandb',
