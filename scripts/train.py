@@ -103,7 +103,7 @@ def train(
         optim='adamw_torch_fused',
         logging_steps=10,
         eval_strategy='steps',
-        eval_steps=250,
+        eval_steps=100,
         save_strategy='steps',
         save_steps=100,
         save_total_limit=2,
